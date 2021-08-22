@@ -3,6 +3,7 @@ import Item from './Item';
 export default function Country({
   children: country = null,
   onCountryClick = null,
+  isVisited = false,
 }) {
   if (!country) {
     return (
@@ -23,9 +24,13 @@ export default function Country({
     }
   }
 
+  const formatedArea = area !== null ? area.toLocaleString("PT") : 0
+
+  const isVisitedClassName = isVisited ? 'bg-green-200 shadow-2xl' : '';
+
   return (
     <div
-      className="border p-3 m-3 flex flex-row items-center space-x-2 shadow-md rounded-md hover:shadow-2xl"
+      className={`border p-3 m-3 flex flex-none items-center space-x-2 shadow-md rounded-md cursor-pointer hover:shadow-xl ${isVisitedClassName}`}
       onClick={handleCountryClick}
     >
       <img className="w-48" src={flag} alt={name} />
@@ -40,13 +45,13 @@ export default function Country({
           <Item label="Reagion">{region}</Item>
         </li>
         <li>
-          <Item label="Population">{population}</Item>
+          <Item label="Population">{population.toLocaleString("PT")}</Item>
         </li>
         <li>
-          <Item label="Area">{area}</Item>
+          <Item label="Area">{formatedArea}m2</Item>
         </li>
         <li>
-          <Item label="Demographic Density">{demographicDensity}</Item>
+          <Item label="Demographic Density">{demographicDensity.toLocaleString("PT")}</Item>
         </li>
       </ul>
     </div>

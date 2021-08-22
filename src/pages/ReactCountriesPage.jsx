@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import Countries from '../components/Countries';
+import Country from '../components/Country';
 import Header from '../components/Header';
 import Main from '../components/Main';
 import TextInput from '../components/TextInput';
 import { allCountries } from '../data/countries';
+import NumberCountries from '../components/NumberCountriesLabel';
+import NumberVisitedCountries from '../components/NumberVisitedCountries';
 
 export default function ReactCountriesPage() {
   const [countryFilter, setCountryFilter] = useState('');
@@ -40,11 +43,10 @@ export default function ReactCountriesPage() {
         })
       : allCountries;
 
-  console.log(visitedCountries);
-
   return (
     <>
       <Header>React - Countries</Header>
+
       <Main>
         <TextInput
           id="inputCountryFilter"
@@ -54,8 +56,23 @@ export default function ReactCountriesPage() {
           autoFocus
         />
 
-        <Countries onCountryClick={toggleVisitedCountry}>
-          {filteredCountries}
+        <Countries>
+          <NumberCountries>{filteredCountries}</NumberCountries>
+          <NumberVisitedCountries>{visitedCountries}</NumberVisitedCountries>
+
+          {filteredCountries.map(country => {
+            const isVisited = visitedCountries.indexOf(country.id) !== -1;
+
+            return (
+              <Country
+                isVisited={isVisited}
+                onCountryClick={toggleVisitedCountry}
+                key={country.id}
+              >
+                {country}
+              </Country>
+            );
+          })}
         </Countries>
       </Main>
     </>
